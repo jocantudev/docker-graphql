@@ -32,10 +32,16 @@ jobs:
         NEW_VERSION: ${{ steps.version.outputs.version }}
       run: |
         docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+        
     - name: Build Docker Image
+      env:
+          NEW_VERSION: ${{ steps.version.outputs.version }}
       run: |
         docker build -t jocantudev/docker-graphql:$NEW_VERSION .
+        
     - name: Push Docker Image
+      env:
+        NEW_VERSION: ${{ steps.version.outputs.version }}
       run: |
         docker push jocantudev/docker-graphql:${NEW_VERSION}
         docker push jocantudev/docker-graphql:latest
